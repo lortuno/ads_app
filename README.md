@@ -1,4 +1,4 @@
-# bank_app
+# ads_app
 Este proyecto pretende demostrar mediante código limpio y el uso de symfony y composer, cómo gestionar una sencilla app de publicación de anuncios, para aprendizaje personal.
 ## Objetivo 
 Creación de varios servicios que permitan crear y publicar un anuncio. 
@@ -9,7 +9,7 @@ Creación de varios servicios que permitan crear y publicar un anuncio.
 
 
 ## Especificaciones:
-*Hay 3 estados posibles en un anuncio: published, stopped, publishing.
+* Hay 3 estados posibles en un anuncio: published, stopped, publishing.
 * Un anuncio solo se puede publicar si su estado es stopped.
 * Al crear un anuncio todos sus componentes deben ser válidos.
 * Solo permitimos imágenes con el formato JPG y PNG.
@@ -18,6 +18,8 @@ Creación de varios servicios que permitan crear y publicar un anuncio.
 * Todo componente se debe serializar en formato JSON para poder comunicarnos con la
  aplicación de front.
 
+### Flujograma explicativo 
+![Screenshot](flowchart_article.jpg) 
 
 ## Configuración del proyecto
 **Descargar dependencias de composer**
