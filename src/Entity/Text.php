@@ -9,6 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Text
 {
+    const MAX_CHAR = '140';
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

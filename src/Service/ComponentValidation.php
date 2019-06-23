@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Status;
+use App\Entity\Text;
 
 class ComponentValidation
 {
@@ -45,6 +46,20 @@ class ComponentValidation
             default:
                 return false;
         }
+    }
+
+    /**
+     * Comprueba si es un texto tiene las condiciones válidas.
+     *
+     * @param   string $text
+     *
+     * @return  bool
+     */
+    public function checkValidText($text)
+    {
+        $length = strlen($text);
+
+        return ($length <= Text::MAX_CHAR);
     }
 
     /**
