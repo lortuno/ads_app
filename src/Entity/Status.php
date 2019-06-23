@@ -9,6 +9,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Status
 {
+    const PUBLISHED = 'published';
+    const PUBLISHING = 'publishing';
+    const READY = 'stopped';
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
