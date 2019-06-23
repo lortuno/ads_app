@@ -19,6 +19,17 @@ class AdvertRepository extends ServiceEntityRepository
         parent::__construct($registry, Advert::class);
     }
 
+    public function findByIdSerialized($id)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.id = :id')
+            ->setParameter('id', $id)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getResult(\Doctrine\ORM\Query::HYDRATE_ARRAY)
+            ;
+    }
+
 //    /**
 //     * @return Advert[] Returns an array of Advert objects
 //     */

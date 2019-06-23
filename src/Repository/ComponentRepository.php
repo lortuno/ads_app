@@ -19,6 +19,17 @@ class ComponentRepository extends ServiceEntityRepository
         parent::__construct($registry, Component::class);
     }
 
+    public function findByAdvertIdSerialized($id)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.advert = :id')
+            ->setParameter('id', $id)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getResult(\Doctrine\ORM\Query::HYDRATE_ARRAY)
+            ;
+    }
+
 //    /**
 //     * @return Component[] Returns an array of Component objects
 //     */
