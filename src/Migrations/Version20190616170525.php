@@ -24,7 +24,6 @@ final class Version20190616170525 extends AbstractMigration
 
         $this->addSql('CREATE TABLE component (id INT AUTO_INCREMENT NOT NULL, type_id INT NOT NULL, position VARCHAR(255) NOT NULL, width INT NOT NULL, height INT NOT NULL, INDEX IDX_49FEA157C54C8C93 (type_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE component_type (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, description LONGTEXT DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE component_type_foo (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, description LONGTEXT DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('ALTER TABLE component ADD CONSTRAINT FK_49FEA157C54C8C93 FOREIGN KEY (type_id) REFERENCES component_type (id)');
     }
 
@@ -36,6 +35,5 @@ final class Version20190616170525 extends AbstractMigration
         $this->addSql('ALTER TABLE component DROP FOREIGN KEY FK_49FEA157C54C8C93');
         $this->addSql('DROP TABLE component');
         $this->addSql('DROP TABLE component_type');
-        $this->addSql('DROP TABLE component_type_foo');
     }
 }

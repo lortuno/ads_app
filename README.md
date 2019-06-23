@@ -1,5 +1,6 @@
 # ads_app
-Este proyecto pretende demostrar mediante código limpio y el uso de symfony y composer, cómo gestionar una sencilla app de publicación de anuncios, para aprendizaje personal.
+Este proyecto pretende demostrar mediante código limpio y el uso de symfony y composer, cómo gestionar 
+una sencilla app de publicación de anuncios, para aprendizaje personal.
 ## Objetivo 
 Creación de varios servicios que permitan crear y publicar un anuncio. 
 * Un anuncio está compuesto por una colección de componentes. 

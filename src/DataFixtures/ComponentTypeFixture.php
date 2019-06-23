@@ -2,7 +2,7 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\ComponentTypeFoo;
+use App\Entity\ComponentType;
 use Doctrine\Common\Persistence\ObjectManager;
 
 class ComponentTypeFixture extends BaseFixture
@@ -20,7 +20,7 @@ class ComponentTypeFixture extends BaseFixture
         $this->createMany(3, 'types', function ()
         {
 
-            $ad = new ComponentTypeFoo();
+            $ad = new ComponentType();
             $type = $this->faker->randomElement(self::$type);
             $ad->setName($type);
             $ad->setDescription(sprintf('this is a %s component', $type));

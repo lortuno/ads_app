@@ -2,7 +2,7 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\StatusFoo;
+use App\Entity\Status;
 use Doctrine\Common\Persistence\ObjectManager;
 
 class StatusFixture extends BaseFixture
@@ -18,8 +18,8 @@ class StatusFixture extends BaseFixture
     {
         $this->createMany(3, 'status', function ()
         {
-            $ad = new StatusFoo();
-            $ad->setName($this->faker->randomElements(self::$status));
+            $ad = new Status();
+            $ad->setName($this->faker->randomElement(self::$status));
 
             return $ad;
         });
