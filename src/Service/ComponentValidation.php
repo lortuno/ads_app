@@ -14,9 +14,9 @@ class ComponentValidation
      *
      * @return  bool
      */
-    public function checkValidImage($image)
+    public static function checkValidImage($image)
     {
-        $ext = strtolower($this->getExtension($image));
+        $ext = strtolower(self::getExtension($image));
 
         switch ($ext) {
             case 'jpg || jpeg':
@@ -34,9 +34,9 @@ class ComponentValidation
      *
      * @return  bool
      */
-    public function checkValidVideo($file)
+    public static function checkValidVideo($file)
     {
-        $ext = strtolower($this->getExtension($file));
+        $ext = strtolower(self::getExtension($file));
 
         switch ($ext) {
             case 'mp4':
@@ -55,7 +55,7 @@ class ComponentValidation
      *
      * @return  bool
      */
-    public function checkValidText($text)
+    public static function checkValidText($text)
     {
         $length = strlen($text);
 
@@ -69,7 +69,7 @@ class ComponentValidation
      *
      * @return  bool
      */
-    public function checkValidStatus($status) {
+    public static function checkValidStatus($status) {
         return ($status === Status::READY);
     }
 
@@ -80,7 +80,7 @@ class ComponentValidation
      *
      * @return  bool|mixed
      */
-    private function getExtension($file)
+    private static function getExtension($file)
     {
         $extension = end(explode(".", $file));
 
