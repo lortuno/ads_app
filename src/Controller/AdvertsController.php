@@ -24,12 +24,16 @@ class AdvertsController extends Controller
     }
 
     /**
-     * @Route("/adverts", name="adverts")
+     * Lista los artículos actuales.
+     * @Route("/", name="adverts")
      */
-    public function index()
+    public function index(AdvertRepository $advertRepository)
     {
-        return $this->render('adverts/index.html.twig', [
+        $adverts = $advertRepository->findAllAdvertInfo();
+
+        return $this->render('adverts/adverts.html.twig', [
             'controller_name' => 'AdvertsController',
+            'adverts' => $adverts,
         ]);
     }
 
@@ -66,5 +70,10 @@ class AdvertsController extends Controller
                 'message' => 'Can\'t publish, the ad does not exist',
             ], 404);
         }
+    }
+
+    public function publishComponent()
+    {
+
     }
 }

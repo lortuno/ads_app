@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Advert;
+use App\Entity\Status;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -26,26 +28,42 @@ class AdvertRepository extends ServiceEntityRepository
             ->setParameter('id', $id)
             ->setMaxResults(1)
             ->getQuery()
-            ->getResult(\Doctrine\ORM\Query::HYDRATE_ARRAY)
-            ;
+            ->getResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
     }
 
-//    /**
-//     * @return Advert[] Returns an array of Advert objects
-//     */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return ArrayCollection
+     */
+    public function findAllAdvertInfo()
+    : array
     {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        $fields = array(
+            'a.id AS advert_id',
+            'a.name AS advert_name',
+            'status_id',
+            's.name AS status_name',
+            'GROUP_CONCAT(c.id) AS components_id',
+        );
+
+        $fields = implode(',', $fields);
+
+        $conn =
+            $this->getEntityManager()
+                ->getConnection();
+
+        $sql  = '
+        SELECT ' . $fields . ' FROM advert a
+           INNER JOIN status s ON a.status_id = s.id
+           LEFT JOIN component c ON c.advert_id = a.id
+           LEFT JOIN component_type ct on c.type_id = ct.id
+        GROUP BY a.id
+        ';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+
+        // returns an array of arrays (i.e. a raw data set)
+        return $stmt->fetchAll();
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?Advert

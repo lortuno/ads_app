@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello {{ controller_name }}!{% endblock %}
+
+{% block body %}
+
+    <div class="container-fluid">
+        <h1>Hola {{ controller_name }}! ✅</h1>
+
+        Aquí tienes la lista de artículos existentes:
+
+        <!-- Supporting adverts -->
+        <div class="row">
+            <div class="col-2"><strong>ID</strong></div>
+            <div class="col-2"><strong>Nombre</strong></div>
+            <div class="col-2"><strong> Componentes</strong></div>
+            <div class="col-2"><strong> Id de Status</strong></div>
+            <div class="col-2"><strong> Estado</strong></div>
+            <div class="col-2"><strong> Publicable</strong></div>
+        </div>
+            {% for advert in adverts %}
+                <div class="row">
+                    <div class="col-2">
+                        <a href="{{ path('advert_publish', {id: advert.advert_id }) }}">{{ advert.advert_id }}</a>
+                    </div>
+                    <div class="col-2">{{ advert.advert_name }}</div>
+                    <div class="col-2">
+                        {{ advert.components_id|length }} <small>({{ advert.components_id }})</small>
+                    </div>
+                    <div class="col-2">
+                        {{ advert.status_id }}
+                    </div>
+                    <div class="col-2">
+                        {{ advert.status_name }}
+                    </div>
+                    <div class="col-2">
+                        {{ advert.components_id ? 'si' : 'no' }}
+                    </div>
+                </div>
+            {% endfor %}
+
+        <div class="row">
+            <div class="pl-2 advert-details">
+                <a href="{{ path('advert_publish' , {id: 19}) }}" class="fa fa-heart-o like-advert js-like-advert">Click here to publish </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
