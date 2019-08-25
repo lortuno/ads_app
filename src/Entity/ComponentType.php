@@ -9,6 +9,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class ComponentType
 {
+    const IMAGE = 'Image';
+    const VIDEO = 'Video';
+    const TEXT = 'Text';
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

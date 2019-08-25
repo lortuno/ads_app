@@ -43,9 +43,9 @@ class AdvertsController extends Controller
     }
 
     /**
-     * @Route("/advert/{id}/", name="advert_publish", methods={"GET", "POST"})
+     * @Route("/advert/{id}/", name="advert_publish", methods={"GET"})
      */
-    public function publishAdvert(Advert $advert, Request $request)
+    public function publishAdvert(Advert $advert)
     {
         $id = $advert->getId();
         $entityManager =
@@ -96,29 +96,35 @@ class AdvertsController extends Controller
     public function publishComponent(ValidatorInterface $validator, Request $request, Advert $advert)
     {
         try {
-            //$id = $request->request->set('advert_id', 2);
-            $id     = $advert->getId();
-            $advert = $this->adRepository->findByIdSerialized($id);
+            $request->request->set('advert_id', 12);
+            $id = $request->request->get('advert_id');
 
             $entityManager =
                 $this->getDoctrine()
                     ->getManager();
+            $advert        =
+                $entityManager->getRepository(Advert::class)
+                    ->find($id);
+
 
             if ($advert) {
                 $request->request->set('position', 2);
                 $request->request->set('height', 2);
                 $request->request->set('width', 2);
-                // $request->request->set('advert_id', 2);
-                $type = new ComponentType();
-                $type = $type->setName($request->request->get('type'));
-                //$request->request->set('type', 2);
+                $request->request->set('type', 'Image');
 
-                $component = new Component();
-                $component->setType($request->request->get('type'));
+                $type =
+                    $this->getDoctrine()
+                        ->getRepository(ComponentType::class)
+                        ->findOneBy(array('name' => $request->request->get('type')));
+
+                $component = new \App\Entity\Component();
+                $component->setType($type);
+
                 $component->setPosition($request->request->get('position'));
                 $component->setHeight($request->request->get('height'));
                 $component->setWidth($request->request->get('width'));
-                $component->setAdvertId($request->request->get('advert_id'));
+                $component->setAdvertId($advert);
 
                 $errors = $validator->validate($component);
                 if (count($errors) > 0) {
@@ -132,6 +138,10 @@ class AdvertsController extends Controller
                 $entityManager->flush();
 
                 return new JsonResponse('Saved new component with id ' . $component->getId());
+            } else {
+                return new JsonResponse([
+                    'message' => 'Can\'t publish, the ad does not exists',
+                ], 400);
             }
         } catch (\Exception $e) {
             return new JsonResponse((string)$e, 404);
