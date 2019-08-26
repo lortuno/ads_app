@@ -80,7 +80,7 @@ class ComponentValidation
      *
      * @return  bool|mixed
      */
-    private static function getExtension($file)
+    public static function getExtension($file)
     {
         $extension = end(explode(".", $file));
 
