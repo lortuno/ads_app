@@ -114,8 +114,6 @@ class AdvertsController extends Controller
 
             $data = $this->getComponentParams($request);
 
-            var_dump($data);die;
-
             $type =
                 $this->getDoctrine()
                     ->getRepository(ComponentType::class)
@@ -136,9 +134,7 @@ class AdvertsController extends Controller
 
             $entityManager->persist($component);
 
-           // $entityManager->flush();
-
-            $componentTypeData = $this->buildComponentDataByType($type, $data, $component);
+            $componentTypeData = $this->buildComponentDataByType($data, $component);
 
             $entityManager->persist($componentTypeData);
 
@@ -150,49 +146,54 @@ class AdvertsController extends Controller
         }
     }
 
-    private function getComponentParams($request)
+    private function getComponentParams(Request $request)
     {
         // Data de prueba
         $request->request->set('position', '2,2,2');
-        $request->request->set('height', 2);
+        $request->request->set('height', 6);
         $request->request->set('width', 2);
+        $request->request->set('weight', 4.5);
         $request->request->set('type', ComponentType::IMAGE);
         $request->request->set('link', 'https://www.marca.es/hola.jpg');
 
         $type = $this->getComponentType($request->request->get('type'));
+
         $link = $request->request->get('link');
-        $format = ComponentValidation::getExtension($link);
-        $validLink = $this->checkValidType($type, $request);
+        //$format = ComponentValidation::getExtension($request->request->get('link'));
+        $format = 'jpg';
+        //$validLink = $this->checkValidType($type, $link);
 
         $data = array(
             'position' => $request->request->get('position'),
             'height'   => $request->request->get('height'),
             'width'    => $request->request->get('width'),
             'type'     => $type,
-            'link'     => $validLink,
+            'link'     => $request->request->get('link'),
             'format'   => $format,
             'weight'   => $request->request->get('weight'),
             'value'    => ComponentValidation::checkValidText($request->request->get('text')),
         );
 
-        foreach ($data as $param => $value) {
+        //var_dump($data);die;
+
+      /*  foreach ($data as $param => $value) {
             if (!$this->validateComponentParam($value)) {
                 return new JsonResponse('Error: El parámetro ' . $param . ' no es válido', 400);
             }
-        }
+        }*/
 
         return $data;
 
     }
 
-    private function checkValidType($type, $request)
+    private function checkValidType($type, $link)
     {
         switch ($type) {
             case ComponentType::IMAGE:
-                return ComponentValidation::checkValidImage($request->request->get('link'));
+                return ComponentValidation::checkValidImage($link);
                 break;
             case ComponentType::VIDEO:
-                return ComponentValidation::checkValidVideo($request);
+                return ComponentValidation::checkValidVideo($link);
                 break;
         }
 
@@ -213,9 +214,9 @@ class AdvertsController extends Controller
         }
     }
 
-    private function buildComponentDataByType($type, $data, $component)
+    private function buildComponentDataByType($data, $component)
     {
-        switch ($type) {
+        switch ($data['type']) {
             case ComponentType::IMAGE:
                 $componentType = new Image();
                 $componentType->setComponentId($component);
@@ -257,6 +258,7 @@ class AdvertsController extends Controller
             case 'format':
             case 'position':
             case 'text':
+                var_dump($param);die;
                 return is_string($param);
                 break;
         }
