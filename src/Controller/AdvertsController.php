@@ -154,21 +154,24 @@ class AdvertsController extends Controller
         $request->request->set('width', 2);
         $request->request->set('weight', 4.5);
         $request->request->set('type', ComponentType::IMAGE);
-        $request->request->set('link', 'https://www.marca.es/hola.jpg');
+        $request->request->set('link', 'https://www.marca.es/hola.png');
 
         $type = $this->getComponentType($request->request->get('type'));
 
         $link = $request->request->get('link');
-        //$format = ComponentValidation::getExtension($request->request->get('link'));
-        $format = 'jpg';
-        //$validLink = $this->checkValidType($type, $link);
+        $format = ComponentValidation::getExtension($request->request->get('link'));
+        $validLink = $this->checkValidType($type, $link);
+
+        if (!$validLink) {
+            return new JsonResponse('Error. Link format not valid', 400);
+        }
 
         $data = array(
             'position' => $request->request->get('position'),
             'height'   => $request->request->get('height'),
             'width'    => $request->request->get('width'),
             'type'     => $type,
-            'link'     => $request->request->get('link'),
+            'link'     => $validLink,
             'format'   => $format,
             'weight'   => $request->request->get('weight'),
             'value'    => ComponentValidation::checkValidText($request->request->get('text')),
@@ -176,11 +179,11 @@ class AdvertsController extends Controller
 
         //var_dump($data);die;
 
-      /*  foreach ($data as $param => $value) {
+        foreach ($data as $param => $value) {
             if (!$this->validateComponentParam($value)) {
                 return new JsonResponse('Error: El parámetro ' . $param . ' no es válido', 400);
             }
-        }*/
+        }
 
         return $data;
 

@@ -82,7 +82,8 @@ class ComponentValidation
      */
     public static function getExtension($file)
     {
-        $extension = end(explode(".", $file));
+        $explode = explode(".", $file);
+        $extension = end($explode);
 
         return $extension ? $extension : false;
     }
